@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- SEO -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Prazer em Foco</title>
+    <meta name="description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus. Descubra dicas e insights para melhorar sua vida íntima, com conteúdo prático e acessível." />
+    <meta name="author" content="Nathalia Coller" />
+    <meta name="keywords" content="prazer em foco, prazer, sexualidade, saúde sexual, relacionamentos, masturbação, prazer, sedução, atração, bem-estar, autoconhecimento, intimidade, sexo, dicas sexuais, desenvolvimento sexual, comunicação sexual, blog de sexualidade" />
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="1 day" />
+
+    <!-- OPEN GRAPH FACEBOOK -->
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Blog Prazer em Foco" />
+    <meta property="og:description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus." />
+
+    <meta property="og:image" content="../img/perfil.png" />
+    <meta property="og:image:alt" content="Natty Coller" />
+    <meta property="og:url" content="https://nattycoller.github.io/blog/index.html" />
+    <meta property="og:site_name" content="Blog Prazer em Foco" />
+    <meta property="og:type" content="website" />
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="Summary" />
+    <meta name="twitter:url" content="https://nattycoller.github.io/blog/index.html" />
+    <meta name="twitter:title" content="Blog Prazer em Foco" />
+    <meta name="twitter:description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus." />
+    <meta name="twitter:image" content="../img/perfil.png" />
+
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" media="only screen and (max-width: 768px)" href="../css/mobile.css">
+    <link rel="stylesheet" media="only screen and (min-width: 769px)" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1 class="great-vibes">Prazer em Foco</h1>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="poppins">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../sobre.html">Sobre</a></li>
+                <li><a href="../contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article class="blog-post">
+            <h1>Explorando Seus Desejos: O Caminho Para o Desenvolvimento Sexual</h1>
+            <p class="post-meta">Posted on Set 15, 2024 by Nathalia Coller</p>
+            <div class="post-content">
+                <p>Resumo: O desenvolvimento sexual é uma jornada contínua de descoberta. Desde a adolescência, quando começamos a perceber nossas primeiras sensações, até a vida adulta, nosso entendimento sobre nossos desejos e limites evolui constantemente. O problema é que, muitas vezes, esse desenvolvimento é travado por tabus, medos e inseguranças que acumulamos ao longo da vida.</p>
+
+                <p>Entender seus desejos e abraçá-los é um passo importante para crescer sexualmente. É essencial criar um ambiente de autocompaixão e respeito, onde você se sinta livre para explorar suas fantasias, preferências e vontades sem julgamentos.</p>
+
+                <p>Mas como começar essa jornada de desenvolvimento sexual? Primeiro, é importante reconhecer o que te impede de explorar plenamente sua sexualidade. Pode ser culpa, medo de julgamento, vergonha ou até falta de conhecimento. A partir do momento que você identifica essas barreiras, você pode começar a trabalhar nelas e dar pequenos passos em direção a uma sexualidade mais livre e realizada.</p>
+                
+                <p>Explorar o prazer sem culpa é o primeiro passo. Seja através da masturbação, seja com um parceiro, é fundamental que você esteja conectado consigo mesmo para poder entender o que realmente te dá prazer. A partir disso, o autoconhecimento floresce, e sua vida sexual pode se tornar mais satisfatória e empoderadora.</p>
+            </div>
+        </article>
+    </main>
+
+
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> <span class="footer-name">Nathalia Coller</span>. Todos os direitos reservados. | <a href="../termos-de-uso.html">Termos de Uso</a> | <a href="../politica-de-privacidade.html">Política de Privacidade</a></p>
+    </footer>
+
+
+    <div id="cookie-banner" class="cookie-banner">
+        <p>Este site usa cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa <a href="../politica-de-privacidade.html">Política de Privacidade</a>.</p>
+        <button id="accept-cookies">Aceitar</button>
+    </div>
+
+    <script>
+        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+            var script = document.createElement('script');
+            script.src = '../js/mobile.js';
+            document.head.appendChild(script);
+        }
+    </script>
+    <script>
+        // Obtém o ano atual
+        const currentYear = new Date().getFullYear();
+        document.getElementById('current-year').textContent = currentYear;
+    </script>
+
+    <script src="js/blog.js"></script>
+</body>
+</html>

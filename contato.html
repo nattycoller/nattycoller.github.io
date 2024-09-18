@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <!-- SEO -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Prazer em Foco</title>
+    <meta name="description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus. Descubra dicas e insights para melhorar sua vida íntima, com conteúdo prático e acessível." />
+    <meta name="author" content="Nathalia Coller" />
+    <meta name="keywords" content="prazer em foco, prazer, sexualidade, saúde sexual, relacionamentos, masturbação, prazer, sedução, atração, bem-estar, autoconhecimento, intimidade, sexo, dicas sexuais, desenvolvimento sexual, comunicação sexual, blog de sexualidade" />
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="1 day" />
+
+    <!-- OPEN GRAPH FACEBOOK -->
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Blog Prazer em Foco" />
+    <meta property="og:description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus." />
+
+    <meta property="og:image" content="img/perfil.png" />
+    <meta property="og:image:alt" content="Natty Coller" />
+    <meta property="og:url" content="https://nattycoller.github.io/blog/index.html" />
+    <meta property="og:site_name" content="Blog Prazer em Foco" />
+    <meta property="og:type" content="website" />
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="Summary" />
+    <meta name="twitter:url" content="https://nattycoller.github.io/blog/index.html" />
+    <meta name="twitter:title" content="Blog Prazer em Foco" />
+    <meta name="twitter:description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus." />
+    <meta name="twitter:image" content="img/perfil.png" />
+
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" media="only screen and (max-width: 768px)" href="css/mobile.css">
+    <link rel="stylesheet" media="only screen and (min-width: 769px)" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+    <header>
+        <nav>
+            <h1 class="great-vibes">Prazer em Foco</h1>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="poppins">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="contato.html" class="link-active">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container-presentation">
+            <!-- Página Contato -->
+            <section id="contato" class="contato">
+                <h2>Fale Conosco</h2>
+                <p>Tem dúvidas, sugestões ou deseja compartilhar sua opinião? Entre em contato conosco através do formulário abaixo, e responderemos o mais rápido possível.</p>
+
+                <form action="enviar-contato.php" method="post">
+                    <h3>Preeencha seus dados</h3>
+                    <input type="text" name="nome" placeholder="Seu nome" required>
+                    <input type="email" name="email" placeholder="Seu e-mail" required>
+                    <input type="tel" name="tel" placeholder="Seu telefone" required>
+                    <textarea name="mensagem" placeholder="Sua mensagem" rows="5" required></textarea>
+                    <input type="submit" value="Enviar">
+                </form>
+            </section>
+        </div>
+    </main>
+
+
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> <span class="footer-name">Nathalia Coller</span>. Todos os direitos reservados. | <a href="termos-de-uso.html">Termos de Uso</a> | <a href="politica-de-privacidade.html">Política de Privacidade</a></p>
+    </footer>
+
+
+    <div id="cookie-banner" class="cookie-banner">
+        <p>Este site usa cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
+        <button id="accept-cookies">Aceitar</button>
+    </div>
+
+    <script>
+        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+            var script = document.createElement('script');
+            script.src = 'js/mobile.js';
+            document.head.appendChild(script);
+        }
+    </script>
+    <script>
+        // Obtém o ano atual
+        const currentYear = new Date().getFullYear();
+        document.getElementById('current-year').textContent = currentYear;
+    </script>
+
+    <script src="js/blog.js"></script>
+</body>
+</html>

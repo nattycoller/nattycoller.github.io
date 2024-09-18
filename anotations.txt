@@ -1,0 +1,15 @@
+Rosa Escuro
+Hex: #D64D79
+Uma cor rica e vibrante que evoca sensualidade e paixão.
+
+Roxo Profundo
+Hex: #6A1B9A
+Um tom profundo e sofisticado que transmite mistério e elegância.
+
+Vermelho Vinho
+Hex: #A14343
+Um vermelho mais escuro que traz um sentimento de intensidade e desejo.
+
+Bege Neutro
+Hex: #F5F5F5
+Um tom suave e neutro que serve como fundo para destacar as cores mais fortes.
