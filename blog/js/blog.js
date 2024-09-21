@@ -1,14 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
     const blogPostsContainer = document.getElementById('blog-posts') || document.getElementById('category-posts');
     const recentPostsList = document.getElementById('recent-posts');
     const categoriesList = document.getElementById('categories');
     const loadMoreButton = document.getElementById('load-more-button');
     const loadMoreContainer = document.getElementById('load-more-container');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptCookiesButton = document.getElementById('accept-cookies');
  
+    // Variables
     let currentPage = 1;
     const postsPerPage = 5;
     let isLoading = false;
  
+    // ===== BLOG POST DATA =====
     const blogPosts = [
        {
            id: 1,
@@ -84,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
    ];
  
- 
-   const categories = {
+    // ===== CATEGORIES DATA =====
+    const categories = {
        prazer_e_autoconhecimento: { name: 'Prazer e Autoconhecimento', description: 'Aqui, falamos de sexualidade de forma aberta e sem julgamentos. Dicas, curiosidades e tudo o que você sempre quis saber sobre prazer, corpo e relações.' },
        desenvolvimento_sexual: { name: 'Desenvolvimento Sexual', description: 'Dicas e insights para entender melhor seu corpo, desejos e como evoluir na sua jornada sexual.' },
        seducao_e_atracao: { name: 'Sedução e Atração', description: 'Técnicas e dicas sobre como atrair e seduzir pessoas, independentemente de gênero, com foco na autenticidade e confiança.' },
@@ -94,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
        masturbacao_sem_tabus: { name: 'Masturbação Sem Tabus', description: 'Quebra de preconceitos e conversas abertas sobre a importância da masturbação para o bem-estar e a saúde sexual.'}
     };
  
+    // ===== BLOG POST FUNCTIONS =====
     function createBlogPostElement(post) {
         const article = document.createElement('article');
         article.className = 'blog-post';
@@ -124,29 +132,28 @@ document.addEventListener('DOMContentLoaded', function() {
         currentPage++;
         isLoading = false;
  
-        // Verifica se todos os posts foram carregados
         if (endIndex >= postsToDisplay.length) {
             loadMoreContainer.style.display = 'none';
         }
     }
  
-
+    // ===== RECENT POSTS FUNCTION =====
     function loadRecentPosts() {
         const recentPosts = blogPosts
-            .slice() 
-            .sort((a, b) => b.id - a.id) 
-            .slice(0, 5); 
-    
+            .slice()
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 5);
+ 
         recentPostsList.innerHTML = '';
-    
+ 
         recentPosts.forEach(post => {
             const li = document.createElement('li');
             li.innerHTML = `<a href="${post.content}">${post.title}</a>`;
             recentPostsList.appendChild(li);
         });
     }
-    
  
+    // ===== CATEGORIES FUNCTIONS =====
     function loadCategories() {
         categoriesList.innerHTML = '';
         Object.entries(categories).forEach(([key, category]) => {
@@ -174,16 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
  
-    // Carrega os posts iniciais
-    loadBlogPosts();
-    loadRecentPosts();
-    loadCategories();
-    initializeCategoryPage();
- 
-    // Adiciona o evento de clique ao botão "Carregar mais posts"
-    loadMoreButton.addEventListener('click', loadBlogPosts);
- 
-    // Funções para o banner de cookies
+    // ===== COOKIE FUNCTIONS =====
     function setCookie(name, value, days) {
         let expires = "";
         if (days) {
@@ -206,9 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
  
     function handleCookieBanner() {
-        const cookieBanner = document.getElementById('cookie-banner');
-        const acceptCookiesButton = document.getElementById('accept-cookies');
- 
         if (!getCookie('cookies-accepted')) {
             cookieBanner.classList.add('show');
         }
@@ -219,25 +214,67 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
  
+    // ===== DARK MODE FUNCTIONS =====
+    function setDarkMode(isDark) {
+        if (isDark) {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = 'Light Mode';
+        } else {
+            body.classList.remove('dark-mode');
+            darkModeToggle.textContent = 'Dark Mode';
+        }
+    }
+ 
+    function initializeDarkMode() {
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode !== null) {
+            setDarkMode(savedMode === 'true');
+        } else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setDarkMode(prefersDark);
+        }
+ 
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            setDarkMode(isDark);
+        });
+ 
+        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        darkModeMediaQuery.addEventListener('change', (e) => {
+            if (localStorage.getItem('darkMode') === null) {
+                setDarkMode(e.matches);
+            }
+        });
+    }
+ 
+    // ===== INITIALIZATION =====
+    loadBlogPosts();
+    loadRecentPosts();
+    loadCategories();
+    initializeCategoryPage();
     handleCookieBanner();
+    initializeDarkMode();
+ 
+    // ===== EVENT LISTENERS =====
+    loadMoreButton.addEventListener('click', loadBlogPosts);
  });
-
-
-// Função que mostra o botão quando o usuário rolar para baixo
-window.onscroll = function() {
-    scrollFunction();
-};
-
-function scrollFunction() {
+ 
+ // ===== SCROLL TO TOP FUNCTIONS =====
+ function scrollFunction() {
     const scrollTopBtn = document.getElementById("scrollTopBtn");
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
         scrollTopBtn.style.display = "block";
     } else {
         scrollTopBtn.style.display = "none";
     }
-}
-
-// Função que faz a página rolar suavemente para o topo
-function scrollToTop() {
+ }
+ 
+ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+ }
+ 
+ // ===== SCROLL EVENT LISTENER =====
+ window.onscroll = function() {
+    scrollFunction();
+ };
