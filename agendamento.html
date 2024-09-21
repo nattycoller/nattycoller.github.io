@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- GOOGLE ANALYTICS -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FPHX4GB4ZT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-FPHX4GB4ZT');
+    </script>
+
+
+    <!-- SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nilza Coller</title>
+    <meta name="description" content="Veja meus conteúdos mais quentes e vamos bater um bato em uma vídeo-chamada." />
+    <meta name="author" content="Nilza Coller" />
+    <meta name="keywords" content="nilza coller, modelo, onlyfans, privacy, nilza, coller, x-videos, pornhub, porno, hot, vendas de conteudos, conteúdos, conteúdos hot" />
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="1 day" />
+
+    <!-- OPEN GRAPH FACEBOOK -->
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Nilza Coller" />
+    <meta property="og:description" content="Veja meus conteúdos mais quentes e vamos bater um bato em uma vídeo-chamada." />
+
+    <meta property="og:image" content="img/img_apresentacao.jpeg" />
+    <meta property="og:image:alt" content="Nilza Coller" />
+    <meta property="og:url" content="https://nilzacoller.github.io" />
+    <meta property="og:site_name" content="Nilza Coller" />
+    <meta property="og:type" content="website" />
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="Summary" />
+    <meta name="twitter:url" content="https://nilzacoller.github.io" />
+    <meta name="twitter:title" content="Nilza Coller" />
+    <meta name="twitter:description" content="Veja meus conteúdos mais quentes e vamos bater um bato em uma vídeo-chamada." />
+    <meta name="twitter:image" content="img/img_apresentacao.jpeg" />
+
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="css/agendamento.css" />
+</head>
+<body>
+    <div class="form-container">
+        <div class="container">
+            <h2>Agende Sua Videochamada</h2>
+            <form id="agendamentoForm" name="FormAgendamentos" action="https://script.google.com/macros/s/AKfycbx-Va-BCtFHByoa7lxSuj6jzRiH4yFJ3FugAGkhf-uWzKHasSznD6HSvmB1oGEatfbXDQ/exec" method="POST">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+
+                <label for="whatsapp">WhatsApp:</label>
+                <input type="text" id="whatsapp" name="whatsapp" required>
+
+                <div class="date-time-container">
+                    <div class="date-container">
+                        <label for="data">Data:</label>
+                        <input type="date" id="data" name="data" required>
+                    </div>
+                    <div class="time-container">
+                        <label for="horario">Horário:</label>
+                        <input type="time" id="horario" name="horario" required>
+                    </div>
+                </div>
+
+                <input type="submit" value="Agendar">
+            </form>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="modalMessage"></p>
+                <div id="spinner" style="display:none;">
+                    <div class="spinner-border"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="js/agendamento.js"></script>
+</body>
+</html>

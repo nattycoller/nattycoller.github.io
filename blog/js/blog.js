@@ -221,3 +221,23 @@ document.addEventListener('DOMContentLoaded', function() {
  
     handleCookieBanner();
  });
+
+
+// Função que mostra o botão quando o usuário rolar para baixo
+window.onscroll = function() {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollTopBtn.style.display = "block";
+    } else {
+        scrollTopBtn.style.display = "none";
+    }
+}
+
+// Função que faz a página rolar suavemente para o topo
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
