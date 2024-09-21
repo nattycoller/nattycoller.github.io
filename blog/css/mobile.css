@@ -119,6 +119,10 @@ nav ul.poppins li a:hover {
    transform: translateY(-9px) rotate(-45deg);
 }
 
+#dark-mode-toggle {
+   display: none;
+}
+
 main {
    display: flex;
    flex-direction: column;
