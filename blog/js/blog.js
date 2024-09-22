@@ -279,4 +279,3 @@ document.addEventListener('DOMContentLoaded', function() {
  window.onscroll = function() {
     scrollFunction();
  };
-

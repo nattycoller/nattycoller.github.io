@@ -23,6 +23,8 @@
    --light-gray: #333333;
    --card-background: #2A2A2A;
    font-size: 16px;
+
+   scroll-behavior: smooth;
 }
 
 body {
