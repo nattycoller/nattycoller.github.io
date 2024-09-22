@@ -1,74 +1,69 @@
-// script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const header = document.querySelector('header');
+    const newsletterForm = document.getElementById('newsletter-form');
 
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modalPagamento');
-    const closeModalButton = document.querySelector('#modalPagamento .close');
+    // Toggle mobile menu
+    hamburger.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
 
-    // Função para abrir o modal
-    function openModal() {
-        modal.style.display = 'flex';
-    }
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
 
-    // Função para fechar o modal
-    function closeModal() {
-        modal.style.display = 'none';
-    }
+    // Newsletter form submission
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        // Here you would typically send the email to your server or a third-party service
+        console.log('Email submitted:', email);
+        alert('Obrigado por se inscrever na nossa newsletter!');
+        newsletterForm.reset();
+    });
 
-    // Adiciona o evento de clique aos botões de pagamento
-    document.querySelectorAll('.botaoPagamento').forEach(button => {
-        button.addEventListener('click', () => {
-            // Atualiza o conteúdo do modal com base no botão clicado
-            const buttonId = button.id;
-            let qrCodeSrc, chavePix, linkPacote;
+    // Add animation on scroll
+    const sections = document.querySelectorAll('section');
+    const options = {
+        root: null,
+        threshold: 0.1,
+        rootMargin: "0px"
+    };
 
-            switch (buttonId) {
-                case 'botaoPagamento1':
-                    qrCodeSrc = 'url_para_qr_code_1.png'; // Substitua pelo URL real
-                    chavePix = 'collergabriela92@gmail.com'; // Substitua pela chave real
-                    linkPacote = 'https://wa.me/5587991915811?text=Olá%20Nilza!%20Comprei%20o%20Pacote%20Básico%20e%20já%20realizei%20seu%20pagamento!%20Vou%20te%20passar%20o%20comprovante%20para%20receber%20meus%20conteúdos...';
-                    break;
-                case 'botaoPagamento2':
-                    qrCodeSrc = 'url_para_qr_code_2.png'; // Substitua pelo URL real
-                    chavePix = 'collergabriela92@gmail.com'; // Substitua pela chave real
-                    linkPacote = 'https://wa.me/5587991915811?text=Olá%20Nilza!%20Comprei%20o%20Pacote%20Ouro%20e%20já%20realizei%20seu%20pagamento!%20Vou%20te%20passar%20o%20comprovante%20para%20receber%20meus%20conteúdos...';
-                    break;
-                case 'botaoPagamento3':
-                    qrCodeSrc = 'url_para_qr_code_3.png'; // Substitua pelo URL real
-                    chavePix = 'collergabriela92@gmail.com'; // Substitua pela chave real
-                    linkPacote = 'https://wa.me/5587991915811?text=Olá%20Nilza!%20Comprei%20o%20Pacote%20Diamante%20e%20já%20realizei%20seu%20pagamento!%20Vou%20te%20passar%20o%20comprovante%20para%20receber%20meus%20conteúdos...';
-                    break;
-                default:
-                    qrCodeSrc = '';
-                    chavePix = '';
-                    linkPacote = '';
+    const observer = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
             }
-
-            document.getElementById('qrCodeImg').src = qrCodeSrc;
-            document.getElementById('chavePix').textContent = chavePix;
-            document.getElementById('linkPacote').href = linkPacote;
-
-            openModal();
         });
+    }, options);
+
+    sections.forEach(section => {
+        observer.observe(section);
     });
 
-    // Adiciona o evento de clique ao botão de fechar
-    closeModalButton.addEventListener('click', closeModal);
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.pageYOffset;
+        const hero = document.querySelector('#hero');
+        hero.style.backgroundPositionY = scrollPosition * 0.7 + 'px';
+    });
 
-    // Fecha o modal se o usuário clicar fora do conteúdo
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
+    // Change header background on scroll
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
-    });
-
-    // Função para copiar chave Pix
-    document.getElementById('copiarPix').addEventListener('click', () => {
-        const chavePixText = document.getElementById('chavePix').textContent;
-        navigator.clipboard.writeText(chavePixText).then(() => {
-            document.getElementById('alertaCopia').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('alertaCopia').style.display = 'none';
-            }, 2000);
-        });
     });
 });
