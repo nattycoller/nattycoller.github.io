@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeCategoryPage() {
         const currentCategory = getCurrentCategory();
         if (currentCategory) {
-            document.title = `${categories[currentCategory].name} - TechTalk`;
+            document.title = `${categories[currentCategory].name} - Prazer Em Foco`;
             const categoryTitle = document.querySelector('.category-title');
             const categoryDescription = document.querySelector('.category-description');
             if (categoryTitle) categoryTitle.textContent = categories[currentCategory].name;
@@ -233,13 +233,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             setDarkMode(prefersDark);
         }
- 
+    
         darkModeToggle.addEventListener('click', () => {
             const isDark = body.classList.toggle('dark-mode');
             localStorage.setItem('darkMode', isDark);
             setDarkMode(isDark);
         });
- 
+    
         const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         darkModeMediaQuery.addEventListener('change', (e) => {
             if (localStorage.getItem('darkMode') === null) {
@@ -247,6 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
  
     // ===== INITIALIZATION =====
     loadBlogPosts();
@@ -278,3 +279,4 @@ document.addEventListener('DOMContentLoaded', function() {
  window.onscroll = function() {
     scrollFunction();
  };
+
