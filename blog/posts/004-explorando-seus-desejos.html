@@ -100,14 +100,6 @@
     </div>
 
     <script>
-        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
-            var script = document.createElement('script');
-            script.src = '../js/mobile.js';
-            document.head.appendChild(script);
-        }
-    </script>
-
-    <script>
         // Obtém o ano atual
         const currentYear = new Date().getFullYear();
         document.getElementById('current-year').textContent = currentYear;
@@ -159,6 +151,8 @@
         });
     </script>
 
-    <script src="js/blog.js"></script>
+    <script src="../js/blog.js"></script>
+    <script src="../js/mobile.js"></script>
+
 </body>
 </html>
