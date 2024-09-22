@@ -54,7 +54,7 @@
                 <li><a href="../contato.html">Contato</a></li>
             </ul>
             <!-- Your existing nav items -->
-            <button id="dark-mode-toggle">Toggle Dark Mode</button>
+            <button id="dark-mode-toggle">Dark Mode</button>
         </nav>
     </header>
 
@@ -80,7 +80,9 @@
     <footer>
         <p>&copy; <span id="current-year"></span> <span class="footer-name">Nathalia Coller</span>. Todos os direitos reservados. | <a href="../termos-de-uso.html">Termos de Uso</a> | <a href="../politica-de-privacidade.html">Política de Privacidade</a></p>
     </footer>
-
+    
+    <!-- Botão de Seta para Cima -->
+    <button id="scrollTopBtn" onclick="scrollToTop()">&#8679;</button>
 
     <div id="cookie-banner" class="cookie-banner">
         <p>Este site usa cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa <a href="../politica-de-privacidade.html">Política de Privacidade</a>.</p>
@@ -98,6 +100,52 @@
         // Obtém o ano atual
         const currentYear = new Date().getFullYear();
         document.getElementById('current-year').textContent = currentYear;
+    </script>
+
+    <script>
+        // Função para ativar/desativar o dark mode
+        function setDarkMode(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('dark-mode-toggle').textContent = 'Light Mode';
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('dark-mode-toggle').textContent = 'Dark Mode';
+            }
+        }
+
+        // Função para inicializar o dark mode
+        function initializeDarkMode() {
+            // Verifica o valor do dark mode salvo no localStorage
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode !== null) {
+                setDarkMode(savedMode === 'true');
+            } else {
+                // Aplica o modo dark se o usuário tiver uma preferência de sistema
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setDarkMode(prefersDark);
+            }
+
+            // Alterna o modo ao clicar no botão
+            document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('darkMode', isDark);
+                setDarkMode(isDark);
+            });
+
+            // Detecta alterações na preferência de cor do sistema
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            darkModeMediaQuery.addEventListener('change', (e) => {
+                if (localStorage.getItem('darkMode') === null) {
+                    setDarkMode(e.matches);
+                }
+            });
+        }
+
+        // Inicializa o dark mode ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDarkMode();
+        });
     </script>
 
     <script src="js/blog.js"></script>
