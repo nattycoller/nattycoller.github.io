@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" media="only screen and (max-width: 768px)" href="css/mobile.css">
     <link rel="stylesheet" media="only screen and (min-width: 769px)" href="css/desktop.css">
+    <link rel="stylesheet" href="css/newslatter.css">
 </head>
 <body>
     <header>
@@ -31,11 +32,23 @@
 
     <main>
         <section id="hero" class="parallax">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
             <div class="hero-content">
                 <h1>Prazer em Foco</h1>
                 <p>Explorando sexualidade, prazer e relacionamentos sem tabus</p>
                 <a href="#sobre" class="cta-button">Conheça-me</a>
             </div>
+            <!-- <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+            </div> -->
         </section>
 
         <section id="sobre" class="container">
@@ -120,7 +133,7 @@
                 <p>Receba dicas, artigos exclusivos e novidades diretamente no seu e-mail!</p>
                 <form id="newsletter-form">
                     <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" required>
-                    <button type="submit" class="cta-button">Cadastrar</button>
+                    <input type="submit" class="cta-button" value="Cadastrar">
                 </form>
             </div>
         </section>
@@ -137,7 +150,22 @@
         </div>
     </footer>
 
+    <!-- Modal para exibir o spinner e a mensagem -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <!-- Botão 'X' para fechar o modal -->
+            <span id="closeModal" class="close-button">&times;</span>
+            <!-- Spinner de carregamento -->
+            <div id="loadingSpinner" class="spinner"></div>
+            <!-- Mensagem de resposta -->
+            <div id="responseMessage"></div>
+            <!-- Botão 'OK' para fechar o modal -->
+            <button id="okButton" class="ok-button hidden">OK</button>
+        </div>
+    </div>
+
     <script src="js/script.js"></script>
     <script src="js/mobile.js"></script>
+    <script src="js/newslatter.js"></script>
 </body>
 </html>

@@ -156,7 +156,7 @@
        display: block;
        width: 80%;
        max-width: 250px;
-       margin: 0 auto;
+       margin: 20px auto 0;
        padding: 15px 30px;
        background-color: var(--accent-color);
        color: white;
@@ -299,6 +299,10 @@
        text-align: center;
    }
 
+   .newsletter-content h2{
+        color: #FFC0CB;
+   }
+
    #newsletter-form {
        display: flex;
        flex-direction: column;
@@ -363,3 +367,7 @@
        animation: fadeIn 0.5s ease forwards;
    }
 }
+
+#blog, #sobre, #telegram, #newslatter {
+    padding-top: 60px;
+ }

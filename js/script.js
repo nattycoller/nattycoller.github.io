@@ -3,17 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const header = document.querySelector('header');
     const newsletterForm = document.getElementById('newsletter-form');
 
-
-    // Newsletter form submission
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        // Here you would typically send the email to your server or a third-party service
-        console.log('Email submitted:', email);
-        alert('Obrigado por se inscrever na nossa newsletter!');
-        newsletterForm.reset();
-    });
-
     // Add animation on scroll
     const sections = document.querySelectorAll('section');
     const options = {

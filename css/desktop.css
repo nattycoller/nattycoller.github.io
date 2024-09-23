@@ -1,16 +1,23 @@
 /* desktop.css */
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Raleway:wght@300;400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
-   --primary-color: #FF69B4;
-   --secondary-color: #4A0E4E;
-   --text-color: #333;
-   --background-color: #FFF5F7;
-   --accent-color: #FF1493;
-   --gradient-start: #FF69B4;
-   --gradient-end: #FF1493;
+    --primary-color: #FF69B4;
+    --secondary-color: #4A0E4E;
+    --text-color: #333;
+    --background-color: #FFF5F7;
+    --accent-color: #FF1493;
+    --gradient-start: #FF69B4;
+    --gradient-end: #FF1493;
+    --header-font: 'Parisienne', cursive;
+    --body-font: 'Raleway', sans-serif;
+    --paragraph-font: 'Crimson Pro', serif;
+
+    font-size: 24px;
 }
 
 body {
-   font-family: 'Poppins', sans-serif;
+   font-family: var(--body-font);
    line-height: 1.6;
    color: var(--text-color);
    background-color: var(--background-color);
@@ -24,18 +31,21 @@ body {
    padding: 60px 20px;
 }
 
+/* Improved header styles */
 header {
    background-color: rgba(255, 105, 180, 0.9);
-   padding: 20px 0;
+   padding: 15px 0;
    position: fixed;
    width: 100%;
    top: 0;
    z-index: 1000;
-   transition: background-color 0.3s ease;
+   transition: all 0.3s ease;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 header.scrolled {
    background-color: rgba(255, 105, 180, 1);
+   padding: 10px 0;
 }
 
 nav {
@@ -48,12 +58,18 @@ nav {
 }
 
 .logo {
-   font-family: 'Playfair Display', serif;
-   font-size: 24px;
+   font-family: var(--header-font);
+   font-size: 28px;
    color: white;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+   transition: transform 0.3s ease;
 }
 
-.nav-links {
+.logo:hover {
+   transform: scale(1.05);
+}
+
+.nav-links ul {
    display: flex;
    list-style: none;
 }
@@ -63,14 +79,33 @@ nav {
 }
 
 .nav-links a {
+   font-family: var(--body-font);
    color: white;
    text-decoration: none;
    font-weight: 600;
-   transition: color 0.3s ease;
+   transition: color 0.3s ease, transform 0.3s ease;
+   position: relative;
+}
+
+.nav-links a::after {
+   content: '';
+   position: absolute;
+   width: 100%;
+   height: 2px;
+   bottom: -5px;
+   left: 0;
+   background-color: white;
+   transform: scaleX(0);
+   transition: transform 0.3s ease;
 }
 
 .nav-links a:hover {
    color: var(--secondary-color);
+   transform: translateY(-2px);
+}
+
+.nav-links a:hover::after {
+   transform: scaleX(1);
 }
 
 .hamburger {
@@ -82,8 +117,12 @@ main {
 }
 
 h1, h2, h3 {
-   font-family: 'Playfair Display', serif;
+   font-family: var(--header-font);
    color: var(--secondary-color);
+}
+
+p {
+   font-family: var(--paragraph-font);
 }
 
 h1 {
@@ -96,6 +135,7 @@ h2 {
    margin-bottom: 30px;
 }
 
+/* Enhanced hero section */
 #hero {
    height: 100vh;
    display: flex;
@@ -106,19 +146,115 @@ h2 {
    background-size: cover;
    background-position: center;
    background-attachment: fixed;
-   color: white;
+   position: relative;
+   overflow: hidden;
 }
 
 .hero-content {
    background-color: rgba(0, 0, 0, 0.6);
    padding: 40px;
    border-radius: 10px;
+   z-index: 2;
+   animation: fadeInUp 1s ease;
 }
 
 #hero h1 {
    color: white;
    font-size: 64px;
    margin-bottom: 20px;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#hero p {
+   color: white;
+   font-size: 24px;
+   margin-bottom: 30px;
+   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Dynamic background elements */
+.floating-shapes {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   z-index: 1;
+}
+
+.shape {
+   position: absolute;
+   background-color: rgba(255, 255, 255, 0.1);
+   border-radius: 50%;
+   animation: float 15s infinite;
+}
+
+.shape:nth-child(1) {
+   width: 80px;
+   height: 80px;
+   left: 10%;
+   animation-delay: 0s;
+}
+
+.shape:nth-child(2) {
+   width: 60px;
+   height: 60px;
+   left: 30%;
+   animation-delay: 2s;
+}
+
+.shape:nth-child(3) {
+   width: 100px;
+   height: 100px;
+   left: 50%;
+   animation-delay: 4s;
+}
+
+.shape:nth-child(4) {
+   width: 50px;
+   height: 50px;
+   left: 70%;
+   animation-delay: 6s;
+}
+
+.shape:nth-child(5) {
+   width: 70px;
+   height: 70px;
+   left: 90%;
+   animation-delay: 8s;
+}
+
+@keyframes float {
+   0% {
+       transform: translateY(0) rotate(0deg);
+       opacity: 1;
+   }
+   100% {
+       transform: translateY(-1000px) rotate(720deg);
+       opacity: 0;
+   }
+}
+
+/* Social media icons */
+.social-icons {
+   position: absolute;
+   bottom: 20px;
+   right: 20px;
+   display: flex;
+   gap: 15px;
+   z-index: 2;
+}
+
+.social-icons a {
+   color: white;
+   font-size: 24px;
+   transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+   transform: translateY(-5px);
+   color: var(--accent-color);
 }
 
 .profile-pic {
@@ -145,6 +281,7 @@ h2 {
 }
 
 .about-content {
+   margin-top: 60px;
    display: flex;
    align-items: center;
    gap: 40px;
@@ -158,6 +295,12 @@ h2 {
    flex: 2;
 }
 
+.about-text p, .plan li, #newsletter p {
+   font-family: var(--paragraph-font);
+   font-size: 18px;
+   line-height: 1.8;
+}
+
 .blog-topics {
    display: grid;
    grid-template-columns: repeat(2, 1fr);
@@ -166,6 +309,7 @@ h2 {
 }
 
 .topic-card {
+   font-family: var(--header-font);
    background-color: white;
    padding: 30px;
    border-radius: 10px;
@@ -234,6 +378,7 @@ h2 {
 #newsletter {
    background-image: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
    color: white;
+   margin-bottom: 60px;
 }
 
 .newsletter-content {
@@ -265,6 +410,13 @@ h2 {
    padding: 12px 24px;
    font-size: 16px;
    cursor: pointer;
+   background-color: var(--secondary-color);
+   color: white;
+   transition: background-color 0.3s ease;
+}
+
+#newsletter-form button:hover {
+   background-color: var(--accent-color);
 }
 
 footer {
@@ -286,6 +438,17 @@ footer {
 }
 
 /* Animations */
+@keyframes fadeInUp {
+   from {
+       opacity: 0;
+       transform: translateY(20px);
+   }
+   to {
+       opacity: 1;
+       transform: translateY(0);
+   }
+}
+
 @keyframes fadeIn {
    from { opacity: 0; transform: translateY(20px); }
    to { opacity: 1; transform: translateY(0); }
@@ -300,4 +463,8 @@ section {
 section.animate {
    opacity: 1;
    transform: translateY(0);
+}
+
+#blog, #sobre, #telegram, #newslatter {
+   padding-top: 140px;
 }

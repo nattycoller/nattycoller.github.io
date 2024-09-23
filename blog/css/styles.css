@@ -580,6 +580,7 @@ footer a:hover {
 .contato input[type="submit"]:hover {
    background-color: var(--secondary-color);
 }
+
 /* Modal */
 .modal {
    display: none; /* Escondido por padrão */
