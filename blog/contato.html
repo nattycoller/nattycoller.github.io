@@ -72,16 +72,15 @@
 
     <main>
         <div class="container-presentation">
-            <!-- Página Contato -->
             <section id="contato" class="contato">
                 <h2>Fale Conosco</h2>
                 <p>Tem dúvidas, sugestões ou deseja compartilhar sua opinião? Entre em contato conosco através do formulário abaixo, e responderemos o mais rápido possível.</p>
 
-                <form action="enviar-contato.php" method="post">
+                <form id="agendamentoForm">
                     <h3>Preeencha seus dados</h3>
                     <input type="text" name="nome" placeholder="Seu nome" required>
                     <input type="email" name="email" placeholder="Seu e-mail" required>
-                    <input type="tel" name="tel" placeholder="Seu telefone" required>
+                    <input type="tel" name="telefone" placeholder="Seu telefone" required>
                     <textarea name="mensagem" placeholder="Sua mensagem" rows="5" required></textarea>
                     <input type="submit" value="Enviar">
                 </form>
@@ -90,10 +89,28 @@
     </main>
 
 
-
     <footer>
         <p>&copy; <span id="current-year"></span> <span class="footer-name">Nathalia Coller</span>. Todos os direitos reservados. | <a href="termos-de-uso.html">Termos de Uso</a> | <a href="politica-de-privacidade.html">Política de Privacidade</a></p>
     </footer>
+
+    <!-- Modal para exibir o spinner e a mensagem -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <!-- Botão 'X' para fechar o modal -->
+            <span id="closeModal" class="close-button">&times;</span>
+
+            <!-- Spinner de carregamento -->
+            <div id="loadingSpinner" class="spinner"></div>
+
+            <!-- Mensagem de resposta -->
+            <div id="responseMessage"></div>
+
+            <!-- Botão 'OK' para fechar o modal -->
+            <button id="okButton" class="ok-button hidden">OK</button>
+        </div>
+    </div>
+
+    
 
 
     <div id="cookie-banner" class="cookie-banner">
@@ -154,6 +171,7 @@
     </script>
 
     <script src="js/mobile.js"></script>
+    <script src="js/contato.js"></script>
 
 </body>
 </html>
