@@ -123,7 +123,44 @@
                 <br>
                 <p>E você, o que acha sobre o assunto? Já sabia desses benefícios? Conta aí nos comentários!</p>
             </div>
+
+            <!-- section comentários -->
+            <section class="container">
+                <h1>Título do Post</h1>
+                <div class="comments-wrapper">
+                    <div id="comment-form">
+                        <h2>Deixe seu comentário</h2>
+                        <form id="commentForm">
+                            <input type="hidden" id="postId" value="1">
+                            <div class="form-group">
+                                <label for="name">Nome:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comentário:</label>
+                                <textarea id="comment" name="comment" required></textarea>
+                            </div>
+                            <button type="submit">Enviar Comentário</button>
+                        </form>
+                        <div id="submit-spinner" class="spinner hidden"></div>
+                    </div>
+                    <div id="comments-section">
+                        <h2>Comentários</h2>
+                        <div id="comments-list"></div>
+                        <div class="load-more-container">
+                            <button id="load-more" class="load-more-button">Carregar mais comentários</button>
+                            <div id="load-spinner" class="spinner hidden"></div>
+                            <p id="no-more-comments" class="no-more-comments hidden">Não há mais comentários para carregar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </article>
+
     </main>
 
     <footer>
@@ -192,6 +229,7 @@
 
     <script src="../js/blog.js"></script>
     <script src="../js/mobile.js"></script>
+    <script src="../js/comentarios.js"></script>
 
 </body>
 </html>

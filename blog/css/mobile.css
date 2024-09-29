@@ -576,3 +576,160 @@ img {
    transform: translateY(-5px);
    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
+
+/* COMMENTS */
+.container {
+   padding: 20px 15px;
+}
+
+.container h1 {
+   font-size: 24px;
+   margin-bottom: 20px;
+   color: #8e44ad;
+}
+
+.container .comments-wrapper {
+   background-color: #fff;
+   border-radius: 10px;
+   box-shadow: 0 2px 10px rgba(142, 68, 173, 0.1);
+   padding: 15px;
+}
+
+#comment-form {
+   margin-bottom: 20px;
+}
+
+.container .form-group {
+   margin-bottom: 15px;
+}
+
+.container label {
+   font-size: 14px;
+   color: #8e44ad;
+}
+
+.container input[type="text"],
+.container input[type="email"],
+.container textarea {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #d7bde2;
+   border-radius: 5px;
+   font-size: 16px;
+}
+
+.container textarea {
+   height: 100px;
+}
+
+.container button[type="submit"] {
+   width: 100%;
+   padding: 12px;
+   background-color: #8e44ad;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.container button[type="submit"]:hover {
+   background-color: #732d91;
+}
+
+.container .comment {
+   border-bottom: 1px solid #e8daef;
+   padding: 15px 0;
+}
+
+.container .comment:last-child {
+   border-bottom: none;
+}
+
+.container .comment-author {
+   font-weight: bold;
+   color: #8e44ad;
+   margin-bottom: 5px;
+}
+
+.container .comment-date {
+   font-size: 12px;
+   color: #95a5a6;
+   margin-bottom: 10px;
+}
+
+.container .load-more-container {
+   text-align: center;
+   margin-top: 20px;
+   position: relative;
+   min-height: 44px;
+}
+
+.container .load-more-button {
+   width: 100%;
+   padding: 12px;
+   background-color: #9b59b6;
+   color: #fff;
+   border: none;
+   border-radius: 5px;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.container .load-more-button:hover {
+   background-color: #8e44ad;
+}
+
+.container .load-more-button:disabled {
+   background-color: #d7bde2;
+   cursor: not-allowed;
+}
+
+.container .spinner {
+   width: 30px;
+   height: 30px;
+   border: 3px solid #f3f3f3;
+   border-top: 3px solid #8e44ad;
+   border-radius: 50%;
+   animation: spin 1s linear infinite;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+   0% { transform: translate(-50%, -50%) rotate(0deg); }
+   100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.container .hidden {
+   display: none;
+}
+
+.container .no-more-comments {
+   text-align: center;
+   color: #95a5a6;
+   font-style: italic;
+   margin-top: 15px;
+   font-size: 14px;
+}
+
+.container .no-comments {
+   text-align: center;
+   color: #95a5a6;
+   font-style: italic;
+   font-size: 14px;
+   margin-top: 15px;
+}
+
+.container #comments-section h2 {
+   font-size: 20px;
+   color: #8e44ad;
+   margin-bottom: 15px;
+}
