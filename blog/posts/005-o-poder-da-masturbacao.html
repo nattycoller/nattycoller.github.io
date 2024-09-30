@@ -41,14 +41,15 @@
     <meta name="twitter:description" content="Explore temas sobre sexualidade, saúde sexual e relacionamentos de forma aberta e sem tabus." />
     <meta name="twitter:image" content="../img/perfil.png" />
 
-
     <!-- stylesheets -->
-    <link rel="stylesheet" media="only screen and (max-width: 768px)" href="../css/mobile.css">
-    <link rel="stylesheet" media="only screen and (min-width: 769px)" href="../css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" media="only screen and (max-width: 768px)" href="../css/mobile.css" />
+    <link rel="stylesheet" media="only screen and (min-width: 769px)" href="../css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
 </head>
 <body>
     <header>
@@ -82,6 +83,47 @@
                 
                 <p>Ao quebrarmos o estigma em torno da masturbação, damos espaço para uma conversa mais aberta sobre o prazer. E não há nada de errado em se permitir o prazer, seja sozinho ou com outra pessoa.</p>
             </div>
+
+            <!-- section comentários -->
+            <section class="container">
+                <h1>O Poder da Masturbação: Redescobrindo o Prazer Sozinho</h1>
+                <div class="comments-wrapper">
+                    <div id="comment-form">
+                        <h2>Deixe seu comentário</h2>
+                        <form id="commentForm">
+                            <!-- identificacao do post -->
+                            <input type="hidden" id="postId" value="5">
+                            <div class="form-group">
+                                <label for="name">Nome:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comentário:</label>
+                                <textarea id="comment" name="comment" required maxlength="500"></textarea>
+                                <div class="character-count"><span id="charCount">0</span>/500</div>
+                            </div>
+                            <button type="submit">Enviar Comentário</button>
+                        </form>
+                        <div id="submit-spinner" class="spinner hidden"></div>
+                    </div>
+
+                    <hr class="hr-division">
+
+                    <div id="comments-section">
+                        <h2>Comentários <span id="comment-count" class="comment-count">(0)</span></h2>
+                        <div id="comments-list"></div>
+                        <div class="load-more-container">
+                            <button id="load-more" class="load-more-button">Carregar mais comentários</button>
+                            <div id="load-spinner" class="spinner hidden"></div>
+                            <p id="no-more-comments" class="no-more-comments hidden">Não há mais comentários para carregar.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </article>
     </main>
 
@@ -151,6 +193,7 @@
 
     <script src="../js/blog.js"></script>
     <script src="../js/mobile.js"></script>
+    <script src="../js/comentarios.js"></script>
 
 </body>
 </html>
