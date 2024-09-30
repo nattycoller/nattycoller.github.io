@@ -22,6 +22,8 @@
    --light-gray: #ecf0f1;
    --card-background: #FFFFFF;
    --aside-background: #f9f9f9;
+   --background-comments-wrapper: #F5F5F5;
+   --border-bottom-color-coment: #7d8994b9;
 
    font-size: 16px;
    scroll-behavior: smooth;
@@ -44,10 +46,17 @@ body.dark-mode {
    --secondary-color: #4ECDC4;
    --third-color: #289089;
    --background-color: #1A1A1A;
-   --text-color: #F0F0F0;
+   --text-color: #d7d7d7;
    --light-gray: #333333;
    --card-background: #2A2A2A;
    --aside-background: #222222;
+   --color-text-label-forms: rgb(66, 66, 66);
+   --color-text-input-forms: rgb(40, 40, 40);
+   --color-text-comments: rgb(45, 45, 45);
+   --color-text-comment-author: rgb(90, 22, 22);
+   --title-color-forms: rgb(54, 124, 131);
+   --background-comments-wrapper: #e9e9e9;
+   --border-bottom-color-coment: #828282;
 }
 
 header {
@@ -186,7 +195,7 @@ body.dark-mode .presentation img {
 
 .blog-post h2 {
    color: var(--third-color);
-   margin-top: 0;
+   margin-top: 3rem;
    font-size: 1.8rem;
 }
 
@@ -674,12 +683,12 @@ footer a:hover {
 
 .container h1 {
    text-align: center;
-   color: #2c3e50;
+   color: var(--title-color-forms);
    margin-bottom: 40px;
 }
 
 .container .comments-wrapper {
-   background-color: #fff;
+   background-color: var(--background-comments-wrapper);
    border-radius: 8px;
    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
    padding: 20px;
@@ -689,22 +698,46 @@ footer a:hover {
    margin-bottom: 30px;
 }
 
+.hr-division {
+   height: 3px;
+   border-radius: 2px;
+   background-color: #289089;
+}
+
 .container .form-group {
-   margin-bottom: 15px;
+   margin-bottom: 40px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
-.container label {
-   display: block;
+.form-group label {
    margin-bottom: 5px;
+   align-self: self-start;
+   color: var(--color-text-label-forms);
 }
 
-.container input[type="text"],
-.container input[type="email"],
-.container textarea {
-   width: 100%;
-   padding: 8px;
-   border: 1px solid #ddd;
-   border-radius: 4px;
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    max-width: 600px; /* Ajuste este valor conforme necessário */
+    padding: 14px 8px;
+    font-size: 16px;
+    border: 1px solid var(--color-text-input-forms);
+    border-radius: 4px;
+}
+
+textarea#comment,
+.edit-textarea {
+    height: 150px; /* Altura fixa */
+    resize: none; /* Impede o redimensionamento */
+}
+
+.character-count {
+   text-align: right;
+   font-size: 0.8em;
+   color: #666;
+   margin-top: 5px;
 }
 
 .container button[type="submit"] {
@@ -721,8 +754,10 @@ footer a:hover {
 }
 
 .container .comment {
-   border-bottom: 1px solid #eee;
+   border-bottom: 1px solid var(--border-bottom-color-coment);
    padding: 15px 0;
+   color: var(--color-text-comments);
+   width: 100%;
 }
 
 .container .comment:last-child {
@@ -732,6 +767,7 @@ footer a:hover {
 .container .comment-author {
    font-weight: bold;
    margin-bottom: 5px;
+   color: var(--color-text-comment-author);
 }
 
 .container .comment-date {
@@ -831,4 +867,51 @@ footer a:hover {
    font-size: 0.9em;
    color: #7f8c8d;
    margin-left: 5px;
+}
+
+.edit-button,
+.save-edit-button,
+.cancel-edit-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    width: 100px; /* Definindo uma largura fixa para todos os botões */
+}
+
+.edit-button:hover,
+.save-edit-button:hover,
+.cancel-edit-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-edit-button {
+    background-color: #f44336;
+}
+
+.cancel-edit-button:hover {
+    background-color: #d32f2f;
+}
+
+.edit-textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 16px;
+}
+
+.edit-buttons {
+    display: flex;
+    justify-content: space-between;
 }

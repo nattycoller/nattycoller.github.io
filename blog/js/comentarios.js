@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function() {
     const commentForm = document.getElementById('commentForm');
     const commentsList = document.getElementById('comments-list');
@@ -8,25 +7,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const noMoreComments = document.getElementById('no-more-comments');
     const commentCount = document.getElementById('comment-count');
     const postId = document.getElementById('postId').value;
+    const commentTextarea = document.getElementById('comment');
+    const charCount = document.getElementById('charCount');
 
     // URL do seu Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbw_2b2tAuBWNuGWMmouIP_5ApS82kRoz19H_sc69kXwdddAxHkYvK7ZKrhCmw1AvLregA/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbygqFJ0Tec0coZESin6EON4bg52hM3zscV61tRWx07y3AdsYBuAR-f-vnvmznm69v1xJQ/exec';
 
     let currentPage = 1;
     const commentsPerPage = 5;
     let totalComments = 0;
 
-    // Função para obter os likes do usuário do armazenamento local
+    function getUserInfo() {
+        return JSON.parse(localStorage.getItem('userInfo') || '{}');
+    }
+
+    function saveUserInfo(name, email) {
+        localStorage.setItem('userInfo', JSON.stringify({ name, email }));
+    }
+
     function getUserLikes() {
         return JSON.parse(localStorage.getItem('userLikes') || '{}');
     }
 
-    // Função para salvar os likes do usuário no armazenamento local
     function saveUserLike(commentId) {
         const userLikes = getUserLikes();
         userLikes[commentId] = true;
         localStorage.setItem('userLikes', JSON.stringify(userLikes));
     }
+
+    function removeUserLike(commentId) {
+        const userLikes = getUserLikes();
+        delete userLikes[commentId];
+        localStorage.setItem('userLikes', JSON.stringify(userLikes));
+    }
+
+    commentTextarea.addEventListener('input', function() {
+        const remainingChars = 500 - this.value.length;
+        charCount.textContent = this.value.length;
+        if (remainingChars < 0) {
+            charCount.style.color = 'red';
+        } else {
+            charCount.style.color = '';
+        }
+    });
 
     commentForm.addEventListener('submit', e => {
         e.preventDefault();
@@ -38,12 +61,17 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('postId', postId);
         formData.append('action', 'addComment');
 
+        const name = formData.get('name');
+        const email = formData.get('email');
+        saveUserInfo(name, email);
+
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
                     alert('Comentário enviado com sucesso!');
                     commentForm.reset();
+                    charCount.textContent = '0';
                     currentPage = 1;
                     loadComments();
                 } else {
@@ -86,17 +114,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     noMoreComments.classList.add('hidden');
                 } else {
                     const userLikes = getUserLikes();
+                    const userInfo = getUserInfo();
                     data.comments.forEach(comment => {
                         const commentElement = document.createElement('div');
                         commentElement.className = 'comment';
                         commentElement.innerHTML = `
                             <p class="comment-author">${comment.name}</p>
                             <p class="comment-date">${new Date(comment.timestamp).toLocaleString()}</p>
-                            <p>${comment.comment}</p>
+                            <p class="comment-content">${comment.comment}</p>
                             <button class="like-button ${userLikes[comment.id] ? 'liked' : ''}" data-comment-id="${comment.id}">
                                 <i class="fas fa-heart"></i>
                                 <span class="like-count">${comment.likes || 0}</span>
                             </button>
+                            ${comment.email === userInfo.email ? `
+                                <button class="edit-button" data-comment-id="${comment.id}">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                            ` : ''}
                         `;
                         commentsList.appendChild(commentElement);
                     });
@@ -111,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 addLikeEventListeners();
+                addEditEventListeners();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -151,6 +186,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function addEditEventListeners() {
+        const editButtons = document.querySelectorAll('.edit-button');
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.dataset.commentId;
+                const commentElement = this.closest('.comment');
+                const commentContent = commentElement.querySelector('.comment-content');
+                const currentComment = commentContent.textContent;
+
+                const editForm = document.createElement('form');
+                editForm.innerHTML = `
+                    <textarea class="edit-textarea" maxlength="500">${currentComment}</textarea>
+                    <div class="character-count"><span class="edit-char-count">${currentComment.length}</span>/500</div>
+                    <div class="edit-buttons">
+                        <button type="submit" class="save-edit-button">Salvar</button>
+                        <button type="button" class="cancel-edit-button">Cancelar</button>
+                    </div>
+                `;
+
+                commentContent.replaceWith(editForm);
+                this.style.display = 'none'; // Esconde o botão de editar
+
+                const editTextarea = editForm.querySelector('.edit-textarea');
+                const editCharCount = editForm.querySelector('.edit-char-count');
+
+                editTextarea.addEventListener('input', function() {
+                    const remainingChars = 500 - this.value.length;
+                    editCharCount.textContent = this.value.length;
+                    if (remainingChars < 0) {
+                        editCharCount.style.color = 'red';
+                    } else {
+                        editCharCount.style.color = '';
+                    }
+                });
+
+                editForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const newComment = editTextarea.value;
+                    updateComment(commentId, newComment, commentElement);
+                });
+
+                editForm.querySelector('.cancel-edit-button').addEventListener('click', function() {
+                    editForm.replaceWith(commentContent);
+                    button.style.display = 'inline-block'; // Mostra o botão de editar novamente
+                });
+            });
+        });
+    }
+
     function updateLike(commentId, action, newLikeCount) {
         fetch(`${scriptURL}?action=${action}Like&commentId=${commentId}`, { method: 'POST' })
             .then(response => response.json())
@@ -171,10 +255,30 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function removeUserLike(commentId) {
-        const userLikes = getUserLikes();
-        delete userLikes[commentId];
-        localStorage.setItem('userLikes', JSON.stringify(userLikes));
+    function updateComment(commentId, newComment, commentElement) {
+        const formData = new FormData();
+        formData.append('action', 'updateComment');
+        formData.append('commentId', commentId);
+        formData.append('comment', newComment);
+    
+        fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    const commentContent = document.createElement('p');
+                    commentContent.className = 'comment-content';
+                    commentContent.textContent = newComment;
+                    commentElement.querySelector('form').replaceWith(commentContent);
+                    commentElement.querySelector('.edit-button').style.display = 'inline-block'; // Mostra o botão de editar novamente
+                    alert('Comentário atualizado com sucesso!'); // Nova linha: Alerta de sucesso
+                } else {
+                    alert('Erro ao atualizar o comentário. Por favor, tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao atualizar o comentário. Por favor, tente novamente.');
+            });
     }
 
     // Carregar comentários iniciais
