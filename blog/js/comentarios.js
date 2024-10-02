@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const charCount = document.getElementById('charCount');
 
     // URL do seu Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxFD4e6AsIm5e8W3ATOz-MOxPGoKTmyNHXXPrOvExpF1b1drvpxRKOBDBrHVFKJ3u2O/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwNn-snwHzEiTexX4kDraAWtCOGexCPqKtzwGcjJT6Q22avx8x64QpHdSZtUHlL_4-zkA/exec';
 
     let currentPage = 1;
     const commentsPerPage = 5;
@@ -39,6 +39,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const userLikes = getUserLikes();
         delete userLikes[commentId];
         localStorage.setItem('userLikes', JSON.stringify(userLikes));
+    }
+
+    function getUserReports() {
+        return JSON.parse(localStorage.getItem('userReports') || '{}');
+    }
+
+    function saveUserReport(commentId) {
+        const userReports = getUserReports();
+        userReports[commentId] = true;
+        localStorage.setItem('userReports', JSON.stringify(userReports));
     }
 
     commentTextarea.addEventListener('input', function() {
@@ -115,8 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     const userLikes = getUserLikes();
                     const userInfo = getUserInfo();
+                    const userReports = getUserReports();
                     data.comments.forEach(comment => {
-                        const commentElement = createCommentElement(comment, userLikes, userInfo);
+                        const commentElement = createCommentElement(comment, userLikes, userInfo, userReports);
                         commentsList.appendChild(commentElement);
                     });
 
@@ -267,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    function createCommentElement(comment, userLikes, userInfo) {
+    function createCommentElement(comment, userLikes, userInfo, userReports) {
         const commentElement = document.createElement('div');
         commentElement.className = 'comment';
         commentElement.dataset.commentId = comment.id;
@@ -284,25 +295,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="fas fa-edit"></i> Editar
                 </button>
             ` : ''}
-            <button class="report-button" data-comment-id="${comment.id}">
-                <i class="fas fa-flag"></i> Denunciar
-            </button>
+            ${!userReports[comment.id] ? `
+                <button class="report-button" data-comment-id="${comment.id}">
+                    <i class="fas fa-flag"></i> Denunciar
+                </button>
+            ` : ''}
         `;
         return commentElement;
     }
 
-    function reportComment(commentId) {
-        fetch(`${scriptURL}?action=reportComment&commentId=${commentId}`, { method: 'POST' })
+    function reportComment(commentId, reason) {
+        const userInfo = getUserInfo();
+        const formData = new FormData();
+        formData.append('action', 'reportComment');
+        formData.append('commentId', commentId);
+        formData.append('reporterName', userInfo.name || 'Anônimo');
+        formData.append('reporterEmail', userInfo.email || 'anonimo@example.com');
+        formData.append('reportReason', reason);
+
+        fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
                     alert('Comentário denunciado com sucesso.');
+                    saveUserReport(commentId);
                     if (data.reports >= 5) {
                         // Remover o comentário da exibição
                         document.querySelector(`[data-comment-id="${commentId}"]`).remove();
+                    } else {
+                        // Remover o botão de denúncia
+                        const reportButton = document.querySelector(`.report-button[data-comment-id="${commentId}"]`);
+                        if (reportButton) {
+                            reportButton.remove();
+                        }
                     }
                 } else {
-                    alert('Erro ao denunciar o comentário. Por favor, tente novamente.');
+                    alert(data.message || 'Erro ao denunciar o comentário. Por favor, tente novamente.');
                 }
             })
             .catch(error => {
@@ -316,10 +344,71 @@ document.addEventListener('DOMContentLoaded', function() {
         reportButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const commentId = this.dataset.commentId;
-                if (confirm('Tem certeza que deseja denunciar este comentário?')) {
-                    reportComment(commentId);
-                }
+                showReportModal(commentId);
             });
+        });
+    }
+
+    function showReportModal(commentId) {
+        const modal = document.createElement('div');
+        modal.className = 'report-modal';
+        modal.innerHTML = `
+            <div class="report-modal-content">
+                <h2>Denunciar Comentário</h2>
+                <p>Por favor, selecione o motivo da denúncia:</p>
+                <form id="report-form">
+                    <label>
+                        <input type="checkbox" name="reason" value="Conteúdo ofensivo"> Conteúdo ofensivo
+                    </label>
+                    <label>
+                        <input type="checkbox" name="reason" value="Spam"> Spam
+                    </label>
+                    <label>
+                        <input type="checkbox" name="reason" value="Informação falsa"> Informação falsa
+                    </label>
+                    <label>
+                        <input type="checkbox" name="reason" value="Outro"> Outro
+                    </label>
+                    <textarea id="other-reason" placeholder="Especifique o motivo (se selecionou 'Outro')" style="display: none;"></textarea>
+                    <div class="report-modal-buttons">
+                        <button type="submit">Enviar Denúncia</button>
+                        <button type="button" id="cancel-report">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        const reportForm = document.getElementById('report-form');
+        const otherReasonCheckbox = reportForm.querySelector('input[value="Outro"]');
+        const otherReasonTextarea = document.getElementById('other-reason');
+
+        otherReasonCheckbox.addEventListener('change', function() {
+            otherReasonTextarea.style.display = this.checked ? 'block' : 'none';
+        });
+
+        reportForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedReasons = Array.from(reportForm.querySelectorAll('input[name="reason"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            if (otherReasonCheckbox.checked) {
+                selectedReasons.push(otherReasonTextarea.value);
+            }
+
+            if (selectedReasons.length === 0) {
+                alert('Por favor, selecione pelo menos um motivo para a denúncia.');
+                return;
+            }
+
+            const reason = selectedReasons.join(', ');
+            reportComment(commentId, reason);
+            modal.remove();
+        });
+
+        document.getElementById('cancel-report').addEventListener('click', function() {
+            modal.remove();
         });
     }
 
