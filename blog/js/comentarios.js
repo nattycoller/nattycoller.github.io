@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const charCount = document.getElementById('charCount');
 
     // URL do seu Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbygqFJ0Tec0coZESin6EON4bg52hM3zscV61tRWx07y3AdsYBuAR-f-vnvmznm69v1xJQ/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxFD4e6AsIm5e8W3ATOz-MOxPGoKTmyNHXXPrOvExpF1b1drvpxRKOBDBrHVFKJ3u2O/exec';
 
     let currentPage = 1;
     const commentsPerPage = 5;
@@ -116,22 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const userLikes = getUserLikes();
                     const userInfo = getUserInfo();
                     data.comments.forEach(comment => {
-                        const commentElement = document.createElement('div');
-                        commentElement.className = 'comment';
-                        commentElement.innerHTML = `
-                            <p class="comment-author">${comment.name}</p>
-                            <p class="comment-date">${new Date(comment.timestamp).toLocaleString()}</p>
-                            <p class="comment-content">${comment.comment}</p>
-                            <button class="like-button ${userLikes[comment.id] ? 'liked' : ''}" data-comment-id="${comment.id}">
-                                <i class="fas fa-heart"></i>
-                                <span class="like-count">${comment.likes || 0}</span>
-                            </button>
-                            ${comment.email === userInfo.email ? `
-                                <button class="edit-button" data-comment-id="${comment.id}">
-                                    <i class="fas fa-edit"></i> Editar
-                                </button>
-                            ` : ''}
-                        `;
+                        const commentElement = createCommentElement(comment, userLikes, userInfo);
                         commentsList.appendChild(commentElement);
                     });
 
@@ -146,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 addLikeEventListeners();
                 addEditEventListeners();
+                addReportEventListeners();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -270,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     commentContent.textContent = newComment;
                     commentElement.querySelector('form').replaceWith(commentContent);
                     commentElement.querySelector('.edit-button').style.display = 'inline-block'; // Mostra o botão de editar novamente
-                    alert('Comentário atualizado com sucesso!'); // Nova linha: Alerta de sucesso
+                    alert('Comentário atualizado com sucesso!');
                 } else {
                     alert('Erro ao atualizar o comentário. Por favor, tente novamente.');
                 }
@@ -279,6 +265,62 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error:', error);
                 alert('Erro ao atualizar o comentário. Por favor, tente novamente.');
             });
+    }
+
+    function createCommentElement(comment, userLikes, userInfo) {
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+        commentElement.dataset.commentId = comment.id;
+        commentElement.innerHTML = `
+            <p class="comment-author">${comment.name}</p>
+            <p class="comment-date">${new Date(comment.timestamp).toLocaleString()}</p>
+            <p class="comment-content">${comment.comment}</p>
+            <button class="like-button ${userLikes[comment.id] ? 'liked' : ''}" data-comment-id="${comment.id}">
+                <i class="fas fa-heart"></i>
+                <span class="like-count">${comment.likes || 0}</span>
+            </button>
+            ${comment.email === userInfo.email ? `
+                <button class="edit-button" data-comment-id="${comment.id}">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+            ` : ''}
+            <button class="report-button" data-comment-id="${comment.id}">
+                <i class="fas fa-flag"></i> Denunciar
+            </button>
+        `;
+        return commentElement;
+    }
+
+    function reportComment(commentId) {
+        fetch(`${scriptURL}?action=reportComment&commentId=${commentId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    alert('Comentário denunciado com sucesso.');
+                    if (data.reports >= 5) {
+                        // Remover o comentário da exibição
+                        document.querySelector(`[data-comment-id="${commentId}"]`).remove();
+                    }
+                } else {
+                    alert('Erro ao denunciar o comentário. Por favor, tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Erro ao denunciar o comentário. Por favor, tente novamente.');
+            });
+    }
+
+    function addReportEventListeners() {
+        const reportButtons = document.querySelectorAll('.report-button');
+        reportButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.dataset.commentId;
+                if (confirm('Tem certeza que deseja denunciar este comentário?')) {
+                    reportComment(commentId);
+                }
+            });
+        });
     }
 
     // Carregar comentários iniciais

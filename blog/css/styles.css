@@ -915,3 +915,22 @@ textarea#comment,
     display: flex;
     justify-content: space-between;
 }
+
+/* função de denuncia */
+.report-button {
+   background-color: #f44336;
+   color: white;
+   border: none;
+   padding: 5px 10px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 12px;
+   margin: 2px 2px;
+   cursor: pointer;
+   border-radius: 4px;
+}
+
+.report-button:hover {
+   background-color: #d32f2f;
+}
