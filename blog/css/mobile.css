@@ -700,19 +700,28 @@ button[type="submit"],
 .edit-button,
 .cancel-edit-button {
    font-size: 14px;
-   padding: 5px 10px;
+   padding: 10px 12px;
    background-color: #4CAF50;
    color: white;
    border: none;
    border-radius: 4px;
    cursor: pointer;
    width: 40%;
-   margin-left: 20px;
+   margin-left: 10px;
 }
 
 .cancel-edit-button {
    background-color: #f44336;
    margin: 10px auto 0;
+}
+
+.report-button {
+   background-color: tomato;
+   color: white;
+   border: none;
+   padding: 10px 12px;
+   margin-left: 10px;
+   border-radius: 4px;
 }
 
 .edit-buttons {
@@ -785,11 +794,6 @@ button[type="submit"],
    transform: translate(-50%, -50%);
 }
 
-/* @keyframes spin {
-   0% { transform: translate(-50%, -50%) rotate(0deg); }
-   100% { transform: translate(-50%, -50%) rotate(360deg); }
-} */
-
 @keyframes spin {
    0% { transform: rotate(0deg); }
    100% { transform: rotate(360deg); }
@@ -822,8 +826,6 @@ button[type="submit"],
    color: #8e44ad;
    margin-bottom: 15px;
 }
-
-
 
 @media (max-width: 480px) {
    .container {
@@ -929,5 +931,135 @@ button[type="submit"],
    .edit-button {
        font-size: 12px;
        padding: 6px 10px;
+   }
+}
+
+/* Estilos para o modal de denúncia em dispositivos móveis */
+.mobile-report-modal {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.8);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 9999;
+}
+
+.mobile-report-modal .report-modal-content {
+   background-color: #ffffff;
+   color: #1A1A1A;
+   padding: 1.5rem;
+   border-radius: 8px;
+   width: 90%;
+   max-width: 340px;
+   max-height: 90vh;
+   overflow-y: auto;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-report-modal h2 {
+   font-size: 1.4rem;
+   margin-bottom: 1rem;
+   text-align: center;
+}
+
+.mobile-report-modal #report-form {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+}
+
+.mobile-report-modal input[type="text"],
+.mobile-report-modal input[type="email"],
+.mobile-report-modal textarea,
+.mobile-report-modal input[type="number"] {
+   width: calc(100% - 1.6rem);
+   padding: 0.75rem;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   font-size: 16px; /* Previne zoom automático em iOS */
+}
+
+.mobile-report-modal .checkbox-group {
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+}
+
+.mobile-report-modal .checkbox-group label {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   font-size: 1rem;
+}
+
+.mobile-report-modal input[type="checkbox"] {
+   width: 20px;
+   height: 20px;
+}
+
+.mobile-report-modal #captcha-container {
+   background-color: #f0f0f0;
+   padding: 1rem;
+   border-radius: 4px;
+   margin-top: 1rem;
+}
+
+.mobile-report-modal #captcha-question {
+   font-size: 1rem;
+   margin-bottom: 0.5rem;
+}
+
+.mobile-report-modal .report-modal-buttons {
+   display: flex;
+   justify-content: space-between;
+   align-items: baseline;
+   gap: 1rem;
+   margin-top: 1.5rem;
+}
+
+.mobile-report-modal .report-modal-buttons button {
+   flex: 1;
+   padding: 0.75rem;
+   border: none;
+   border-radius: 4px;
+   font-size: 1rem;
+   cursor: pointer;
+   min-height: 44px; /* Mínimo recomendado para alvos de toque */
+}
+
+.mobile-report-modal .report-modal-buttons button[type="submit"] {
+   background-color: #007bff;
+   color: white;
+}
+
+.mobile-report-modal .report-modal-buttons button[type="button"] {
+   background-color: #6c757d;
+   color: white;
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 320px) {
+   .mobile-report-modal .report-modal-content {
+       padding: 1rem;
+   }
+
+   .mobile-report-modal h2 {
+       font-size: 1.2rem;
+   }
+
+   .mobile-report-modal input[type="text"],
+   .mobile-report-modal input[type="email"],
+   .mobile-report-modal textarea,
+   .mobile-report-modal input[type="number"] {
+       padding: 0.5rem;
+   }
+
+   .mobile-report-modal .report-modal-buttons button {
+       padding: 0.5rem;
+       font-size: 0.9rem;
    }
 }

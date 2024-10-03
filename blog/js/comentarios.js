@@ -1,4 +1,13 @@
+/**
+ * Sistema de Comentários
+ * 
+ * Este script gerencia um sistema de comentários interativo, permitindo aos usuários
+ * adicionar, editar, curtir e denunciar comentários. Ele também inclui paginação
+ * e um sistema de captcha para denúncias.
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do DOM
     const commentForm = document.getElementById('commentForm');
     const commentsList = document.getElementById('comments-list');
     const loadMoreButton = document.getElementById('load-more');
@@ -10,47 +19,78 @@ document.addEventListener('DOMContentLoaded', function() {
     const commentTextarea = document.getElementById('comment');
     const charCount = document.getElementById('charCount');
 
-    // URL do seu Google Apps Script Web App
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwNn-snwHzEiTexX4kDraAWtCOGexCPqKtzwGcjJT6Q22avx8x64QpHdSZtUHlL_4-zkA/exec';
+    // URL do Google Apps Script Web App
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbznbfY_tvFLBTR1AxomljACj_FyqwRwSET8b_pptEMUg9VCQgMJ4cZBJ9ZC0KmxWl-I5A/exec';
 
+    // Variáveis de controle
     let currentPage = 1;
     const commentsPerPage = 5;
     let totalComments = 0;
 
+    /**
+     * Recupera as informações do usuário do localStorage
+     * @returns {Object} Objeto contendo nome e email do usuário
+     */
     function getUserInfo() {
         return JSON.parse(localStorage.getItem('userInfo') || '{}');
     }
 
+    /**
+     * Salva as informações do usuário no localStorage
+     * @param {string} name - Nome do usuário
+     * @param {string} email - Email do usuário
+     */
     function saveUserInfo(name, email) {
         localStorage.setItem('userInfo', JSON.stringify({ name, email }));
     }
 
+    /**
+     * Recupera os likes do usuário do localStorage
+     * @returns {Object} Objeto contendo os IDs dos comentários curtidos
+     */
     function getUserLikes() {
         return JSON.parse(localStorage.getItem('userLikes') || '{}');
     }
 
+    /**
+     * Salva um like do usuário no localStorage
+     * @param {string} commentId - ID do comentário curtido
+     */
     function saveUserLike(commentId) {
         const userLikes = getUserLikes();
         userLikes[commentId] = true;
         localStorage.setItem('userLikes', JSON.stringify(userLikes));
     }
 
+    /**
+     * Remove um like do usuário no localStorage
+     * @param {string} commentId - ID do comentário descurtido
+     */
     function removeUserLike(commentId) {
         const userLikes = getUserLikes();
         delete userLikes[commentId];
         localStorage.setItem('userLikes', JSON.stringify(userLikes));
     }
 
+    /**
+     * Recupera as denúncias do usuário do localStorage
+     * @returns {Object} Objeto contendo os IDs dos comentários denunciados
+     */
     function getUserReports() {
         return JSON.parse(localStorage.getItem('userReports') || '{}');
     }
 
+    /**
+     * Salva uma denúncia do usuário no localStorage
+     * @param {string} commentId - ID do comentário denunciado
+     */
     function saveUserReport(commentId) {
         const userReports = getUserReports();
         userReports[commentId] = true;
         localStorage.setItem('userReports', JSON.stringify(userReports));
     }
 
+    // Evento para atualizar a contagem de caracteres do comentário
     commentTextarea.addEventListener('input', function() {
         const remainingChars = 500 - this.value.length;
         charCount.textContent = this.value.length;
@@ -61,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Evento de submissão do formulário de comentário
     commentForm.addEventListener('submit', e => {
         e.preventDefault();
         const submitButton = commentForm.querySelector('button[type="submit"]');
@@ -98,11 +139,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     });
 
+    // Evento para carregar mais comentários
     loadMoreButton.addEventListener('click', () => {
         currentPage++;
         loadComments(true);
     });
 
+    /**
+     * Carrega os comentários do servidor
+     * @param {boolean} append - Se true, anexa os novos comentários aos existentes
+     */
     function loadComments(append = false) {
         loadMoreButton.classList.add('hidden');
         loadSpinner.classList.remove('hidden');
@@ -153,10 +199,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    /**
+     * Atualiza a contagem de comentários exibida
+     */
     function updateCommentCount() {
         commentCount.textContent = `(${totalComments})`;
     }
 
+    /**
+     * Adiciona event listeners aos botões de curtir
+     */
     function addLikeEventListeners() {
         const likeButtons = document.querySelectorAll('.like-button');
         likeButtons.forEach(button => {
@@ -183,6 +235,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    /**
+     * Adiciona event listeners aos botões de editar
+     */
     function addEditEventListeners() {
         const editButtons = document.querySelectorAll('.edit-button');
         editButtons.forEach(button => {
@@ -232,6 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    /**
+     * Atualiza o like de um comentário no servidor
+     * @param {string} commentId - ID do comentário
+     * @param {string} action - Ação a ser realizada ('add' ou 'remove')
+     * @param {number} newLikeCount - Nova contagem de likes
+     */
     function updateLike(commentId, action, newLikeCount) {
         fetch(`${scriptURL}?action=${action}Like&commentId=${commentId}`, { method: 'POST' })
             .then(response => response.json())
@@ -252,6 +313,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    /**
+     * Atualiza o conteúdo de um comentário no servidor
+     * @param {string} commentId - ID do comentário
+     * @param {string} newComment - Novo conteúdo do comentário
+     * @param {HTMLElement} commentElement - Elemento DOM do comentário
+     */
     function updateComment(commentId, newComment, commentElement) {
         const formData = new FormData();
         formData.append('action', 'updateComment');
@@ -278,6 +345,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    /**
+     * Cria um elemento DOM para um comentário
+     * @param {Object} comment - Dados do comentário
+     * @param {Object} userLikes - Objeto contendo os likes do usuário
+     * @param {Object} userInfo - Informações do usuário atual
+     * @param {Object} userReports - Objeto contendo as denúncias do usuário
+     * @returns {HTMLElement} Elemento DOM do comentário
+     */
     function createCommentElement(comment, userLikes, userInfo, userReports) {
         const commentElement = document.createElement('div');
         commentElement.className = 'comment';
@@ -304,13 +379,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return commentElement;
     }
 
-    function reportComment(commentId, reason) {
-        const userInfo = getUserInfo();
+    /**
+     * Envia uma denúncia de comentário para o servidor
+     * @param {string} commentId - ID do comentário denunciado
+     * @param {string} reporterName - Nome do denunciante
+     * @param {string} reporterEmail - Email do denunciante
+     * @param {string} reason - Motivo da denúncia
+     */
+    function reportComment(commentId, reporterName, reporterEmail, reason) {
         const formData = new FormData();
         formData.append('action', 'reportComment');
         formData.append('commentId', commentId);
-        formData.append('reporterName', userInfo.name || 'Anônimo');
-        formData.append('reporterEmail', userInfo.email || 'anonimo@example.com');
+        formData.append('reporterName', reporterName);
+        formData.append('reporterEmail', reporterEmail);
         formData.append('reportReason', reason);
 
         fetch(scriptURL, { method: 'POST', body: formData })
@@ -339,6 +420,9 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    /**
+     * Adiciona event listeners aos botões de denúncia
+     */
     function addReportEventListeners() {
         const reportButtons = document.querySelectorAll('.report-button');
         reportButtons.forEach(button => {
@@ -349,14 +433,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    /**
+     * Exibe o modal de denúncia
+     * @param {string} commentId - ID do comentário a ser denunciado
+     */
     function showReportModal(commentId) {
         const modal = document.createElement('div');
         modal.className = 'report-modal';
         modal.innerHTML = `
             <div class="report-modal-content">
                 <h2>Denunciar Comentário</h2>
-                <p>Por favor, selecione o motivo da denúncia:</p>
                 <form id="report-form">
+                    <input type="text" id="reporter-name" placeholder="Seu nome" required>
+                    <input type="email" id="reporter-email" placeholder="Seu email" required>
+                    <p>Por favor, selecione o motivo da denúncia:</p>
                     <label>
                         <input type="checkbox" name="reason" value="Conteúdo ofensivo"> Conteúdo ofensivo
                     </label>
@@ -370,6 +460,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="checkbox" name="reason" value="Outro"> Outro
                     </label>
                     <textarea id="other-reason" placeholder="Especifique o motivo (se selecionou 'Outro')" style="display: none;"></textarea>
+                    <div id="captcha-container">
+                        <p id="captcha-question"></p>
+                        <input type="number" id="captcha-answer" required>
+                    </div>
                     <div class="report-modal-buttons">
                         <button type="submit">Enviar Denúncia</button>
                         <button type="button" id="cancel-report">Cancelar</button>
@@ -383,6 +477,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const reportForm = document.getElementById('report-form');
         const otherReasonCheckbox = reportForm.querySelector('input[value="Outro"]');
         const otherReasonTextarea = document.getElementById('other-reason');
+        const captchaQuestion = document.getElementById('captcha-question');
+        const captchaAnswer = document.getElementById('captcha-answer');
+
+        // Função para gerar um novo captcha
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const captchaResult = num1 + num2;
+            captchaQuestion.textContent = `Quanto é ${num1} + ${num2}?`;
+            return captchaResult;
+        }
+
+        // Gerar captcha inicial
+        let currentCaptchaResult = generateCaptcha();
 
         otherReasonCheckbox.addEventListener('change', function() {
             otherReasonTextarea.style.display = this.checked ? 'block' : 'none';
@@ -390,6 +498,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         reportForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            const reporterName = document.getElementById('reporter-name').value;
+            const reporterEmail = document.getElementById('reporter-email').value;
             const selectedReasons = Array.from(reportForm.querySelectorAll('input[name="reason"]:checked'))
                 .map(checkbox => checkbox.value);
             
@@ -402,8 +512,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            if (parseInt(captchaAnswer.value) !== currentCaptchaResult) {
+                alert('Resposta do captcha incorreta. Por favor, tente novamente.');
+                // Gerar novo captcha após resposta incorreta
+                currentCaptchaResult = generateCaptcha();
+                captchaAnswer.value = ''; // Limpar o campo de resposta
+                return;
+            }
+
             const reason = selectedReasons.join(', ');
-            reportComment(commentId, reason);
+            reportComment(commentId, reporterName, reporterEmail, reason);
             modal.remove();
         });
 
